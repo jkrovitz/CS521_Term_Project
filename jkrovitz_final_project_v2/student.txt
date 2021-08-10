@@ -5,5 +5,3 @@ Student ID, Student First Name, Student Last Name
 20001, William, Lewandowski
 30001, Karen, Davis
 60001, Beatrice, Ogeh
-70001, Kaisy, Nunez
-70002, Chloe, Swenson

@@ -1,5 +1,5 @@
 import os
-
+import copy
 
 class Student:
     """This is a student class"""
@@ -24,7 +24,7 @@ class Student:
         return self.student_last_name_str
 
     def __repr__(self):
-        return '(%s, %s, %s)' % (self.get_student_id(),
+        return '%s, %s, %s' % (self.get_student_id(),
                                  self.get_student_first_name(),
                                  self.get_student_last_name())
 
@@ -77,3 +77,54 @@ def get_student():
         list_of_students.append(Student(*row))
     student_file.close()
     return list_of_students
+
+
+def read_student_file():
+    with open("student.txt", "r") as a_file:
+        lines = a_file.readlines()
+        lines.pop(0)
+        return lines
+
+
+def make_list_of_student_objs():
+    lines_of_student_file = read_student_file()
+    list_of_students = []
+    for line in lines_of_student_file:
+        line = line.replace("\n", "")
+        line_as_list = line.split(", ")
+        list_of_students.append(line_as_list)
+    return list_of_students
+    #     list_of_student_objs.append(Student(*line_as_list))
+    #     list_of_students.append(line_as_list)
+    # return list_of_student_objs, list_of_students
+
+
+student_list = make_list_of_student_objs()
+# print(student_list)
+
+list_of_student_objs = []
+for i in range(0, len(student_list)):
+    student = student_list[i]
+    list_of_student_objs.append(Student(*student))
+# print(list_of_student_objs)
+
+
+        # list_of_lists = []
+        # for line in lines:
+        #     line = line.replace("\n", "")
+        #     split_line = line.split(", ")
+        #     list_of_lists.append(Student(*split_line))
+        #     print(type(list_of_lists[0]))
+        # return list_of_lists
+
+
+# def convert_to_list():
+#     list_of_students = read_student_file()
+#     list_of_lists = []
+#     for student in range(0, len(list_of_students)):
+#         student_obj = list_of_students[student]
+#         student_list = list(student_obj)
+#         list_of_lists.append(student_list)
+#     return list_of_lists
+#
+# print(convert_to_list())

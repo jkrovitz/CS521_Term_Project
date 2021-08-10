@@ -1,3 +1,0 @@
-Section ID, Teacher First Name, Teacher Last Name, Class Name, Section Number, School Name
-10000, William, Lewandowski, English 101, 1, North High School
-10001, Carly, Knox, Math 101, 1, South High School

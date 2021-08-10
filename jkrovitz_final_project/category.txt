@@ -1,2 +1,0 @@
-Category ID, Category Name, Assignments of Category Type, Weight
-1, Quizzes, ['Quiz 1'], .15
