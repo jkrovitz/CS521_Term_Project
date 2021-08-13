@@ -1,0 +1,3 @@
+Category ID, Category Name, Category Weight
+100, Assignments, 0.35
+102, Quizzes, 0.15

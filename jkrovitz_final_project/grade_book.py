@@ -7,64 +7,9 @@ read in the class list, enter grades by category, and calculate each student's
 overall grade.
 """
 import copy
-
-import student2
-from student import Student, get_student, read_student_file
-
-ASSIGNMENT_WEIGHT = .35
-QUIZZES_WEIGHT = .15
-
-
-
-def build_student_grade_dict(name_of_student):
-    grade_dict_k = ["name", "assignments", "quizzes"]
-    while True:
-        student_grades_list_file = open('student_grades_list.txt', 'w')
-        assignment_grades_input = input("Please enter assignment grades for " +
-                                        name_of_student + " separating each "
-                                                          "with a "
-                                                          "space: ").split(" ")
-        quiz_grades_input = input("Please enter quiz for " + name_of_student +
-                                  " separating each with a space: ").split(" ")
-        for assignment_grade in range(0, len(assignment_grades_input)):
-            if not assignment_grades_input[assignment_grade]. \
-                    replace('.', '', 1).isdigit():
-                print("Error: Your assignment grades must be numeric")
-        for quiz_grade in range(0, len(quiz_grades_input)):
-            if not quiz_grades_input[quiz_grade].replace('.', '', 1).isdigit():
-                print("Error: Your quiz grades must be numeric")
-        else:
-            break
-    file_string = "\n" + student_name + "," + str(
-        assignment_grades_input) + "," + str(quiz_grades_input)
-    student_grades_list_file.write(file_string)
-    student_grades_list_file.close()
-    asn_grades = [float(assignment_grade) for assignment_grade in
-                  assignment_grades_input]
-    # asn_grades_formatted = "{:.2f}".format(asn_grades)
-    qz_grades = [float(quiz_grade) for quiz_grade in quiz_grades_input]
-    # qz_grades_formatted = "{:.2f}".format(qz_grades)
-    grade_values = [name_of_student, asn_grades, qz_grades]
-    return dict(zip(grade_dict_k, grade_values))
-
-
-def compute_average_of_category(scores):
-    total_sum = float(sum(scores))
-    return total_sum / len(scores)
-
-
-def compute_total_average(a_student):
-    assignment_average = compute_average_of_category(
-        list(a_student['assignments']))
-    quiz_average = compute_average_of_category(list(a_student['quizzes']))
-    return (
-                   ASSIGNMENT_WEIGHT * assignment_average +
-                   QUIZZES_WEIGHT * quiz_average) / (
-                   ASSIGNMENT_WEIGHT + QUIZZES_WEIGHT)
-
-
-def calculate_stud_avg_total_grade(student_total_grades_list):
-    return (sum(student_total_grades_list)) / len(student_total_grades_list)
+import student
+from check_input_type import check_alpha_input
+from custom_error import ValueTooSmallError, ValueTooLargeError
 
 
 def read_from_file(file_name):
@@ -97,6 +42,148 @@ def get_list_of_lists_from_file(file_name):
     return line_list
 
 
+def check_grade_entered(a_cat, name_of_student):
+    while True:
+        try:
+            category_grades_float_input = float(input(
+                f"Please enter a {a_cat[0]} grade for "
+                f"{name_of_student} as a decimal between"
+                f" 0 and 1: "))
+            if category_grades_float_input <= 0:
+                raise ValueTooSmallError
+            elif category_grades_float_input > 1:
+                raise ValueTooLargeError
+        except ValueError:
+            print(f"ERROR: The {a_cat[0]} grade must be numeric")
+        except ValueTooSmallError:
+            print("ERROR: The value you entered must be greater than 0.")
+        except ValueTooLargeError:
+            print("ERROR: The value you entered must be 1 or less.")
+        else:
+            return category_grades_float_input
+
+
+def create_category_list(a_cat, name_of_student):
+    grade_list_float = []
+    grade_list_str = []
+    user_choice = ''
+    categories = get_list_of_lists_from_file('category_name.txt')
+    category_list = []
+    for a_category in range(0, len(categories)):
+        category_list.append(categories[a_category][1])
+    print(category_list)
+    for category_name in range(0, len(category_list)):
+        while user_choice != 'n':
+            grade_input = check_grade_entered(a_cat, name_of_student)
+            grade_list_float.append(grade_input)
+            grade_list_str.append(str(grade_input))
+            while user_choice != 'n':
+                user_choice = input("Would you like to enter another grade? Type"
+                                    "'y' for yes and 'n' for no.")
+                if user_choice == 'y':
+                    break
+                elif user_choice == 'n':
+                    break
+                else:
+                    print("ERROR: You have typed an invalid option.")
+            if user_choice == 'y':
+                continue
+            else:
+                break
+    return str(grade_list_str), grade_list_float
+
+
+def check_category_id():
+    while True:
+        category_id_input = input("Please enter a 3 digit id for a category: ")
+        category_id_required_length = 3
+        if not category_id_input.isdigit():
+            print("Error: You may only enter digits. Please try again.")
+        elif len(category_id_input) != category_id_required_length:
+            print(f'The length of the category_id you entered '
+                  f'{category_id_input} was not {category_id_required_length}'
+                  f' digits. Please try again.')
+        else:
+            category_id_int = int(category_id_input)
+            return category_id_int
+
+
+def check_category_weight():
+    while True:
+        cat_weight_input = input("Please enter a category weight using a "
+                                 "decimal point between 0 and 1: ")
+        if not cat_weight_input.replace(".", "", 1).isdigit():
+            print(f"ERROR: The category weight input {cat_weight_input} is not"
+                  f"numeric. Please try again.")
+        else:
+            cat_weight_float = float(cat_weight_input)
+            if cat_weight_float <= 0 or cat_weight_float > 1:
+                print(f"ERROR: the category weight must be greater than 0 "
+                      f"but no more than 1. Please try again.")
+            else:
+                return cat_weight_float
+
+
+def add_category():
+    category_id = check_category_id()
+    category_name_input = check_alpha_input(
+        'Please enter a new category name: ',
+        'ERROR: your category name ',
+        ' was not all letters')
+    category_weight = check_category_weight()
+    category_name_file = open("category_name.txt", "a+")
+    category_name_file.write(f"\n{category_id}, {category_name_input}, "
+                             f"{category_weight}")
+    category_name_file.close()
+    return category_id, category_name_input, category_weight
+
+
+def build_student_grade_dict(name_of_student):
+    file_text = read_file_no_header('category_name.txt')
+    grade_dict_k = []
+    for a_line in file_text:
+        a_line = a_line.replace("\n", "")
+        split_line = a_line.split(", ")
+        category_tuple = (split_line[1], split_line[2])
+        grade_dict_k.append(category_tuple)
+    list_of_grades_per_category = []
+    file_string = "\n" + name_of_student
+    # while True:
+    student_grades_list_file = open('student_grades_list.txt', 'a+')
+    for cat in range(0, len(grade_dict_k)):
+        cat_str_and_float = create_category_list(grade_dict_k[cat],
+            name_of_student)
+        print(cat_str_and_float)
+        file_string += cat_str_and_float[0]
+        list_of_grades_per_category.append(cat_str_and_float[1])
+    print(file_string)
+    student_grades_list_file.write(file_string)
+    student_grades_list_file.close()
+    grades_cat_dict = dict(zip(grade_dict_k, list_of_grades_per_category))
+    return grades_cat_dict
+
+
+def build_student_name_grade_dict(name, grades):
+    grades['student_name'] = name
+    return grades
+
+
+def compute_average_of_category(scores):
+    total_sum = float(sum(scores))
+    return total_sum / len(scores)
+
+
+def new_compute_total_avg(weights_and_cats_avgs):
+    sum_scores = 0
+    sum_cats = 0
+    for cat in weights_and_cats_avgs:
+        sum_scores += ((cat[0]) * (cat[1]))
+        print(f'{sum_scores} += (({cat[0] * cat[1]})) ')
+        sum_cats += cat[0]
+        print(f'\n{sum_cats} += {cat[0]}')
+    return sum_scores / sum_cats
+
+
 def select_student():
     list_of_students = get_list_of_lists_from_file('student.txt')
     while True:
@@ -105,8 +192,7 @@ def select_student():
             a_student_string = str(a_student)[1:-1]
             if student_choice_input == list_of_students[a_student][0]:
                 return list_of_students[a_student]
-            else:
-                print("That is an invalid id.")
+
 
 if __name__ == '__main__':
     while True:
@@ -120,59 +206,52 @@ if __name__ == '__main__':
         choice_input_int = int(choice_input)
         if choice_input_int == 1:
             list_of_student_lists = get_list_of_lists_from_file('student.txt')
-            print(get_file_header('student.txt'))
-            for student_list in list_of_student_lists:
-                print(str(student_list)[1:-1])
+            new_student_list = []
+            for a_student_list in range(0, len(list_of_student_lists)):
+                a_new_student = student.Student(
+                    list_of_student_lists[a_student_list][0],
+                    list_of_student_lists[a_student_list][1],
+                    list_of_student_lists[a_student_list][2])
+                new_student_list.append(a_new_student)
+
+            for obj in new_student_list:
+                print(obj)
 
         elif choice_input_int == 2:
-            # students = get_student()
-            # student_info_set = set()
-            #
-            # for student in students:
-            #     student_info = student.__repr__()
-            #     student_info = student_info.replace("(", "").replace(")", "")
-            #     student_info_list = student_info.split(", ")
-            #     student_info_tuple = tuple(student_info_list)
-            #     student_info_set.add(student_info_tuple)
-            # print(student_info_set)
-            student2.add_student_to_file()
+            student.add_object_to_file(student.Student,
+                student.create_student(), 'student.txt')
 
         elif choice_input_int == 3:
-            # students = get_student()
-            # for student in students:
-            #     student_name = student.get_student_first_name() + " " + \
-            #                    student.get_student_last_name()
+            new_category = add_category()
+
+        elif choice_input_int == 4:
+            print(get_file_header('category.txt'))
+            print(get_list_of_lists_from_file('category.txt'))
+
+        elif choice_input_int == 5:
             selected_student = select_student()
             print(f"Your selected_student is {selected_student}")
             student_name = selected_student[1] + " " + selected_student[2]
             student_grades = build_student_grade_dict(student_name)
             student_grades_formatted = copy.deepcopy(student_grades)
             print('student grades formatted', student_grades_formatted)
-            student_grades_list_index_1 = list(student_grades_formatted.values())[1]
-            student_grades_formatted_index_1 = []
-            for i in student_grades_list_index_1:
-                format_value = "{:.2f}".format(i)
-                student_grades_formatted_index_1.append(format_value)
-            print(student_grades_formatted_index_1)
-
-            print('student grades formatted', student_grades_formatted)
-
-            print("A student and their grades: ", student_grades)
-            total_average = compute_total_average(student_grades)
-            if student_name[-1] == 's' or student_name[-1] == 'z':
-                print("{}' overall grade: {:.0%}.".format(student_name,
-                    total_average / 100))
-            else:
-                print("{}'s overall grade: {:.0%}.".format(student_name,
-                    total_average / 100))
-            student_names_list.append(student_name)
-            final_grades_list.append(total_average)
-            print(dict(zip(student_names_list, final_grades_list)))
-            stud_avg_total_grade = calculate_stud_avg_total_grade(
-                final_grades_list)
-            stud_avg_total_grade_percent = "{:.0%}".format(
-                stud_avg_total_grade / 100)
-            print(stud_avg_total_grade_percent)
+            student_name_grade_dict = build_student_name_grade_dict(
+                student_name, student_grades_formatted)
+            print(student_name_grade_dict)
+            print('student grades.items', student_grades.items())
+            new_dict_averages = {}
+            category_averages = []
+            for k, category_grade in student_grades.items():
+                average_val_per_cat = compute_average_of_category(category_grade)
+                category_averages.append(average_val_per_cat)
+                new_dict_averages[k] = average_val_per_cat
+            print(new_dict_averages)
+            weights_and_cat_averages = []
+            for k, v in new_dict_averages.items():
+                weight_float = float(k[1])
+                a_new_tuple = (weight_float, v)
+                weights_and_cat_averages.append(a_new_tuple)
+            print(new_compute_total_avg(weights_and_cat_averages))
 
         elif choice_input_int == 0:
             break

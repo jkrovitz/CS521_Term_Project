@@ -31,3 +31,11 @@ def check_alpha_input(input_prompt, first_half_error_message,
                   f"{second_half_error_message}")
         else:
             return user_input
+
+
+def add_object_to_file(class_name, create_obj_method, file_name):
+    an_object_instance = create_obj_method
+    obj_instance_as_string = class_name.__repr__(an_object_instance)
+    object_file = open(file_name, 'a+')
+    object_file.write("\n" + obj_instance_as_string)
+    object_file.close()

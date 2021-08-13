@@ -1,0 +1,2 @@
+Category ID, Category Name, Category Weight, Tasks in Category
+100, Assignments, .35, HW_1 HW_2

@@ -7,3 +7,5 @@ Student ID, Student First Name, Student Last Name
 60001, Beatrice, Ogeh
 70001, Kaisy, Nunez
 70002, Chloe, Swenson
+59432, John, Smith
+98765, Emmma, Thole
