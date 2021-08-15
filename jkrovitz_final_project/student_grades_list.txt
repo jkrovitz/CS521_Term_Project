@@ -1,70 +1,28 @@
-
-Karen Davis,['70', '60'],['70', '50']
-Beatrice Ogeh['90', '60', '90']['90']
-Beatrice Ogeh['90', '60']['90']
-Beatrice Ogeh['90']['70']
-Beatrice Ogeh['90', '100']['90']
-Beatrice Ogeh['90']['90']
-Beatrice Ogeh['90', '100']['90']
-Beatrice Ogeh['90']['100', '90']
-Beatrice Ogeh['90', '100']['90']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['100', '90']['100']
-Beatrice Ogeh['100', '90']['100']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['90']['100']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['90', '100']['90']
-Beatrice Ogeh['90', '100']['90']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['90']['100']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['100', '90']['100', '90']
-Beatrice Ogeh['100', '90']['100', '90']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['100', '90']['100']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['90', '100']['100']
-Beatrice Ogeh['100', '90']['90']
-Beatrice Ogeh['90', '80']
-Beatrice Ogeh['70', '90']['90']['80']['09']['90']
-Beatrice Ogeh['90', '70']['90']['90']['90']['90']
-Beatrice Ogeh['90', '60']
-Beatrice Ogeh['90', '70']
-Beatrice Ogeh['70', '90']
-Beatrice Ogeh['90', '70']
-Beatrice Ogeh['90', '60']
-Beatrice Ogeh['90']
-Beatrice Ogeh['90']
-Beatrice Ogeh['90', '60']
-Beatrice Ogeh['90', '70']
-Beatrice Ogeh['90', '70']
-Beatrice Ogeh['90', '70']['90', '80']
-Beatrice Ogeh['90', '60']['100', '90']
-Beatrice Ogeh['100', '90']['100']
-Beatrice Ogeh['100', '90']['80']
-Beatrice Ogeh['90', '100']['80']
-Beatrice Ogeh['90', '100']['95', '86']
-Beatrice Ogeh['90', '100']['90', '87']
-Beatrice Ogeh['90', '60']['90', '80']
-Beatrice Ogeh['90', '60']['60', '90']
-Beatrice Ogeh['70', '90']['90']
-Beatrice Ogeh['90']['89', '87']
-Beatrice Ogeh['90', '100']['90', '70']
-Beatrice Ogeh['100', '90', '80']['60', '50']
-Beatrice Ogeh['.90', '.8']['.9', '.8']
-Beatrice Ogeh['70', '90']['87']
-Beatrice Ogeh['70', '90']['87']
-Beatrice Ogeh['.70', '.90']['.87']
-Beatrice Ogeh['.7', '.9']['.87']
-Beatrice Ogeh['.5', '.9']['.5', '.9']
-Beatrice Ogeh['0.9']['0.8']
-Beatrice Ogeh['0.9', '0.8', '0.75', '0.9']['0.7', '0.9', '0.8']
-Beatrice Ogeh['0.9']['0.8', '0.1', '0.9']
-Beatrice Ogeh['0.9', '0.8']['0.7', '0.1']
+Student Name, Grades in Each Category, Total / Final Grade
+Beatrice Ogeh, Assignments: ['80%', '90%']; Quizzes: ['80%'], 84%
+Beatrice Ogeh, Assignments: ['90%', '80%']; Quizzes: ['70%'], 80%
+Beatrice Ogeh, Assignments: ['90%']; Quizzes: ['80%'], 87%
+Beatrice Ogeh, Assignments: ['90%', '60%']; Quizzes: ['80%'], 76%
+Beatrice Ogeh, Assignments: ['90%', '80%']; Quizzes: ['90%'], 86%
+Jeremy Krovitz, Assignments: ['80.0%']; Quizzes: ['90.0%'], 83%
+Beatrice Ogeh, Assignments: ['90.0%']; Quizzes: ['70.0%'], 84%
+Beatrice Ogeh, Assignments: ['90.0%', '80.0%']; Quizzes: ['70.0%', '60.0%'], 79%
+Beatrice Ogeh, Assignments: ['90.0%', '80.0%']; Quizzes: ['70.0%', '60.0%'], 79%
+Beatrice Ogeh, Assignments: ['90.0%']; Quizzes: ['80.0%', '70.0%'], 86%
+Beatrice Ogeh, Assignments: ['80.0%', '80.0%', '70.0%']; Quizzes: ['80.0%'], 78%
+Beatrice Ogeh, Assignments: ['90.0%']; Quizzes: ['80.0%'], 87%
+Beatrice Ogeh, Assignments: ['90.0%']; Quizzes: ['80.0%', '70.0%', '80.0%'], 86%
+Beatrice Ogeh, Assignments: ['80.0%']; Quizzes (0.15 weight): ['80.0%'], 80%
+Beatrice Ogeh, Assignments: ['80.0%', '70.0%']; Quizzes (0.15 weight): ['80.0%'], 76%
+Beatrice Ogeh, Assignments: ['80.0%']; Quizzes (0.15 weight): ['80.0%'], 80%
+Beatrice Ogeh, Assignments: ['80.0%']; Quizzes (0.15 weight): ['90.0%', '70.0%'], 80%
+Beatrice Ogeh, Assignments: ['90.0%', '30.0%', '78.0%']; Quizzes (0.15 weight): ['65.0%', '90.0%'], 69%
+Beatrice Ogeh, Assignments: ['90.0%']; Quizzes: ['80.0%'], 87%
+Beatrice Ogeh, Assignments: ['90.0%', '80.0%']; Quizzes: ['80.0%'], 84%
+Beatrice Ogeh, Assignments: ['90.0%']; Quizzes: ['80.0%'], 87%
+Beatrice Ogeh, Assignments: ['90.0%']; Quizzes: ['80.0%'], 87%
+Beatrice Ogeh, Assignments: ['80.0%']; Quizzes: ['70.0%'], 77%
+Beatrice Ogeh, Assignments: ['89.0%', '90.0%']; Quizzes: ['80.0%', '80.0%'], 87%
+Beatrice Ogeh, Assignments: ['90.0%', '80.0%']; Quizzes: ['70.0%', '80.0%'], 82%
+Beatrice Ogeh, Assignments: ['80.0%']; Quizzes: ['70.0%'], 77%
+Beatrice Ogeh, Assignments: ['80.0%', '80.0%']; Quizzes: ['90.0%'], 83%

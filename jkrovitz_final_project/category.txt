@@ -1,2 +1,3 @@
-Category ID, Category Name, Category Weight, Tasks in Category
-100, Assignments, .35, HW_1 HW_2
+Category ID, Category Name, Category Weight
+100, Assignments, 0.35
+102, Quizzes, 0.15
