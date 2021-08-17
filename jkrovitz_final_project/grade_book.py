@@ -582,11 +582,13 @@ if __name__ == '__main__':
                 counter += 1
                 percent_list = [f'{i * 100:.1f}%' for i in category_grade]
                 if counter == len(list(student_grades.items())):
-                    file_string += f' {k[0]}: {percent_list}'
+                    file_string += f' {k[0]} ({k[1]:.0%} weight): ' \
+                                   f'{percent_list}'
                     cat_grade_print += f'{k[0]} ({float(k[1]) * 100 :.0f}% ' \
                                        f'weight): {percent_list}'
                 else:
-                    file_string += f' {k[0]}: {percent_list};'
+                    file_string += f' {k[0]} ({k[1]:.0%} weight): ' \
+                                   f'{percent_list};'
                     cat_grade_print += f'{k[0]} ({float(k[1]) * 100 :.0f}%' \
                                        f' weight): {percent_list}; '
                 average_of_category = selected_stu_obj.\
@@ -595,10 +597,9 @@ if __name__ == '__main__':
                 cat_weight = float(k[1])
                 cat_weight_avg_pair = [average_val_per_cat, cat_weight]
                 list_of_cat_weight_avg_pair.append(cat_weight_avg_pair)
-            total_avg_instance = selected_stu_obj.calculate_total_grade(
+            total_avg = selected_stu_obj.calculate_total_grade(
                 list_of_cat_weight_avg_pair
             )
-            total_avg = float(total_avg_instance.__repr__())
             total_avg_formatted = "{:.0%}".format(total_avg)
 
             file_string += f', {total_avg_formatted}'
