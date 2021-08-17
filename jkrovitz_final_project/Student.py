@@ -93,7 +93,9 @@ class Student:
         :return: the average of the numbers list as a float
         """
         self.grades_in_one_cat = grades_in_one_cat
-        return sum(self.grades_in_one_cat) / len(self.grades_in_one_cat)
+        return round(
+            sum(self.grades_in_one_cat) / len(self.grades_in_one_cat), 2
+        )
 
     def __mul__(self, category_avg, category_weight):
         """
@@ -102,7 +104,7 @@ class Student:
         :param category_weight: the weight of a category
         :return: the product of category_avg and category_weight
         """
-        return category_avg * category_weight
+        return round(category_avg * category_weight, 2)
 
     def calculate_total_grade(self, avg_cats_and_weights):
         """
@@ -126,7 +128,7 @@ class Student:
             the_sum_of_prods_of_weight_and_avg += (float(
                 product_of_cat_avg_and_weight))
             sum_of_weights += a_cat[1]
-        return the_sum_of_prods_of_weight_and_avg / sum_of_weights
+        return round(the_sum_of_prods_of_weight_and_avg / sum_of_weights, 2)
 
     def __repr__(self):
         """
@@ -144,7 +146,6 @@ class Student:
 
 
 if __name__ == '__main__':
-
     student = Student(10003, "John", "Smith")
     created_datetime_instance = datetime.datetime.now()
 
@@ -162,16 +163,17 @@ if __name__ == '__main__':
     assert (student.get_student_last_name(
         student.student_last_name) == 'Doe')
 
-    category_grade_list = [.96, .78, .85]
-    assert(0.8633333333333333 ==
-           student.calculate_average_of_category(category_grade_list))
+    category_grade_list = [0.96, 0.78, 0.85]
+    avg_cat_grade = 0.86
+    assert (avg_cat_grade ==
+            student.calculate_average_of_category(category_grade_list))
 
-    avg_cat_grade = 0.8633333333333333
-    cat_weight = .35
-    assert(0.30216666666666664 == student.__mul__(avg_cat_grade, cat_weight))
+    cat_weight = 0.35
+    assert (0.30 == student.__mul__(avg_cat_grade, cat_weight))
 
-    cat_grades_and_weights = [[0.8, .15], [0.8633333333333333, .35]]
-    assert(0.8443333333333333 == student.calculate_total_grade(
+    total_average_to_test = 0.84
+    cat_grades_and_weights = [[0.8, .15], [0.86, .35]]
+    assert (total_average_to_test == student.calculate_total_grade(
         cat_grades_and_weights))
 
     assert f'{student.student_id}, ' \

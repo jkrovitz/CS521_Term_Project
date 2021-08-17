@@ -580,7 +580,7 @@ if __name__ == '__main__':
             for k, category_grade in student_grades.items():
                 weight_with_space_removed = k[1]
                 counter += 1
-                percent_list = [f'{i * 100:.1f}%' for i in category_grade]
+                percent_list = [f'{i * 100:.0f}%' for i in category_grade]
                 if counter == len(list(student_grades.items())):
                     file_string += f' {k[0]} ({k[1]:.0%} weight): ' \
                                    f'{percent_list}'

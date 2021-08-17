@@ -51,3 +51,5 @@ Beatrice Ogeh, Quizzes: ['90.0%', '70.0%']; Assignments: ['80.0%'], 80%
 Beatrice Ogeh, Quizzes: ['90.0%', '97.0%']; Assignments: ['73.0%', '72.0%'], 79%
 Beatrice Ogeh, Quizzes (15% weight): ['70.0%', '80.0%']; Assignments (34% weight): ['80.0%'], 78%
 Beatrice Ogeh, Quizzes (15% weight): ['70.0%', '90.0%', '80.0%']; Assignments (35% weight): ['96.0%', '78.0%', '85.0%'], 84%
+Beatrice Ogeh, Quizzes (15% weight): ['90.0%', '80.0%']; Assignments (35% weight): ['80.0%'], 82%
+Beatrice Ogeh, Quizzes (15% weight): ['80%', '90%']; Assignments (35% weight): ['89%'], 88%
