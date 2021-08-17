@@ -7,5 +7,7 @@ Student ID, Student First Name, Student Last Name, Created At
 70003, William, Lewandowski, 2021-08-15 15:06:28.403326
 80009, Joe, Shmoe, 2021-08-15 15:15:11.514265
 98765, Jon, Smith, 2021-08-15 15:23:43.826501
-65321, STeve, Krovitz, 2021-08-15 16:22:56.388018
+65321, Steve, Krovitz, 2021-08-15 16:22:56.388018
 32423, John, Smith, 2021-08-15 17:05:27.895673
+54321, Jon, Goberdan, 2021-08-15 20:40:47.154377
+65432, Test, Student, 2021-08-16 21:19:24.083678

@@ -11,7 +11,6 @@ import sys
 from Student import Student
 from custom_error import ValueTooSmallError, ValueTooLargeError, \
     AlreadyExistsError
-from average import AverageOfCategory, TotalGradeAvg
 
 
 def read_from_file(file_name):
@@ -207,11 +206,11 @@ def check_category_id():
             sys.stdout.write(f'The length of the category_id you entered '
                              f'{category_id_input} was not '
                              f'{category_id_required_length}'
-                             f' digits. Please try again.')
+                             f' digits. Please try again.\n')
         except AlreadyExistsError:
             sys.stdout.write(
                 f"The category id {category_id_input} already exists. "
-                f"Please try again.")
+                f"Please try again.\n")
         else:
             category_id_int = int(category_id_input)
             return category_id_int
@@ -237,7 +236,7 @@ def check_category_weight():
         except TypeError:
             sys.stdout.write(
                 f"ERROR: The category weight input {cat_weight_input} is not"
-                f"numeric. Please try again.")
+                f"numeric. Please try again.\n")
         else:
             cat_weight_float = float(cat_weight_input)
             try:
@@ -246,7 +245,7 @@ def check_category_weight():
             except ValueError:
                 sys.stdout.write(
                     f"ERROR: the category weight must be greater than 0 "
-                    f"but no more than 1. Please try again.")
+                    f"but no more than 1. Please try again.\n")
             else:
                 return cat_weight_float
 
@@ -267,6 +266,7 @@ def add_category():
         'ERROR: your category name ',
         ' was not all letters')
     category_weight = check_category_weight()
+    category_weight = f'{category_weight:.0%}'
     category_file = open("category.txt", "a+")
     category_file.write(f"\n{category_id}, {category_name}, "
                         f"{category_weight}")
@@ -306,7 +306,9 @@ def build_category_name_weight_tuple_list():
     for a_line in file_text:
         a_line = a_line.replace("\n", "")
         split_line = a_line.split(", ")
-        category_tuple = (split_line[1], split_line[2])
+        weight_str = str(split_line[2])
+        weight_float = float(weight_str.strip('%'))/100
+        category_tuple = (split_line[1], weight_float)
         category_weight_tuples.append(category_tuple)
     return category_weight_tuples
 
@@ -360,7 +362,7 @@ def enter_another_grade(grade_list_float, a_category, name_of_student):
     while user_choice != 'n':
         try:
             user_choice = input(
-                f"The grades you have entered so far for {name_of_student} in"
+                f"The grades you have entered so far for {name_of_student} in "
                 f"the {a_category[0]} category are {grade_list_float}.\nWould "
                 f"you like to enter another grade in the {a_category[0]} "
                 f"category for {name_of_student}? Type 'y' for yes and 'n' for"
@@ -554,22 +556,28 @@ if __name__ == '__main__':
 
         elif choice_input_int == 4:
             print(get_file_header('category.txt'))
-            print(get_list_of_lists_from_file('category.txt'))
+            category_list_of_lists = \
+                get_list_of_lists_from_file('category.txt')
+            for cat_list in range(0, len(category_list_of_lists)):
+                print(str(category_list_of_lists[cat_list])[1:-1])
 
         elif choice_input_int == 5:
             selected_student = select_student()
             print(f"Your selected_student is {selected_student}")
             student_name = selected_student[1] + " " + selected_student[2]
             student_grades = build_student_grade_dict(student_name)
-
+            selected_stu_obj = Student(
+                selected_student[0],
+                selected_student[1],
+                selected_student[2]
+            )
             new_dict_averages = {}
             category_averages = []
             list_of_cat_weight_avg_pair = []
             file_string = f'\n{student_name},'
             cat_grade_print = ''
             counter = 0
-            print(list(student_grades.items()))
-            for k, category_grade in list(student_grades.items()):
+            for k, category_grade in student_grades.items():
                 weight_with_space_removed = k[1]
                 counter += 1
                 percent_list = [f'{i * 100:.1f}%' for i in category_grade]
@@ -581,13 +589,15 @@ if __name__ == '__main__':
                     file_string += f' {k[0]}: {percent_list};'
                     cat_grade_print += f'{k[0]} ({float(k[1]) * 100 :.0f}%' \
                                        f' weight): {percent_list}; '
-                average_of_category = AverageOfCategory(category_grade)
-                average_val_per_cat = float(average_of_category.__repr__())
+                average_of_category = selected_stu_obj.\
+                    calculate_average_of_category(category_grade)
+                average_val_per_cat = float(average_of_category)
                 cat_weight = float(k[1])
                 cat_weight_avg_pair = [average_val_per_cat, cat_weight]
                 list_of_cat_weight_avg_pair.append(cat_weight_avg_pair)
-
-            total_avg_instance = TotalGradeAvg(list_of_cat_weight_avg_pair)
+            total_avg_instance = selected_stu_obj.calculate_total_grade(
+                list_of_cat_weight_avg_pair
+            )
             total_avg = float(total_avg_instance.__repr__())
             total_avg_formatted = "{:.0%}".format(total_avg)
 
