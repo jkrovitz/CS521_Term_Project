@@ -239,3 +239,5 @@ if __name__ == '__main__':
         student.student_last_name)
     assert f'{student.student_id}, ' \
            f'{stu_full_name}' == student.__repr__()
+
+    print("All unit tests passed!")
