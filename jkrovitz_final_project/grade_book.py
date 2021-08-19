@@ -66,9 +66,9 @@ def get_list_of_lists_from_file(file_name):
     """
     lines = read_file_no_header(file_name)
     line_list = []
-    for line in lines:
-        line = line.replace("\n", "")
-        split_line = line.split(", ")
+    for a_line in lines:
+        a_line = a_line.replace("\n", "")
+        split_line = a_line.split(", ")
         line_list.append(split_line)
     return line_list
 
@@ -89,7 +89,7 @@ def check_alpha_input(input_prompt, first_half_error_message,
     while True:
         user_input = input(input_prompt)
         if not user_input.isalpha():
-            print(f"{first_half_error_message}{user_input}"
+            print(f"{first_half_error_message}\"{user_input}\""
                   f"{second_half_error_message}")
         else:
             return user_input
@@ -102,9 +102,10 @@ def make_student_set(student_lists_in_list):
     called a_new_student, passing in arguments obtained from a_student_list in
     student_lists_in_list at indices 0 and 1. Splits index 1 on the space
     between the first and last name, separating them into student_first_name
-    attribute and student_last_name attribute. The three attributes are placed
-    inside of a tuple called student_tuple, and the tuple is added to the set
-    called student_set. After completing the loop, the student_set is returned.
+    attribute and student_last_name attribute. The three attributes are
+    concatenated in a string called student_string, and the string is appended
+    to the set called student_set. After completing the loop, the student_set
+    is returned.
     :param student_lists_in_list: list of student lists, where each list
     contains information about a particular student
     :return: student_set: a set of tuples where each tuple contains a student's
@@ -118,12 +119,10 @@ def make_student_set(student_lists_in_list):
             # name listed in file rather than comma separated first and last
             (student_lists_in_list[a_student_list][1].split(" "))[1]
         )
-        student_tuple = (
-            a_new_student.student_id,
-            a_new_student.student_first_name,
+        student_string = a_new_student.student_id + ", " + \
+            a_new_student.student_first_name + ", " + \
             a_new_student.student_last_name
-        )
-        student_set.add(student_tuple)
+        student_set.add(student_string)
     return student_set
 
 
@@ -156,14 +155,13 @@ def check_student_id_input(input_prompt,
         list_of_students = get_list_of_lists_from_file('student.txt')
         list_of_student_ids = []
         for student_info in range(0, len(list_of_students)):
-
             # create list of student ids that are already in the grade book
             list_of_student_ids.append(list_of_students[student_info][0])
 
         if not student_id.isdigit():  # is student_id numeric
             sys.stdout.write(f"{first_part_error_message}{student_id}"
                              f"{second_part_error_message_1}\n")
-        elif len(student_id) != valid_student_id_length:   # is student id
+        elif len(student_id) != valid_student_id_length:  # is student id
             # specified length
             sys.stdout.write(f"{first_part_error_message}{student_id}"
                              f"{second_part_error_message_2}"
@@ -171,7 +169,7 @@ def check_student_id_input(input_prompt,
                              f"{third_part_error_message_2}\n")
         elif student_id in list_of_student_ids:  # does student_id already
             # exist
-            sys.stdout.write(f'The student id {student_id} already exists. '
+            sys.stdout.write(f'The student id "{student_id}" already exists. '
                              f'Please try again.\n')
         else:
             return student_id
@@ -262,14 +260,14 @@ def check_category_id(category_id_input):
             sys.stdout.write("ERROR: You may only enter digits. Please try "
                              "again.\n")
         except ValueError:
-            sys.stdout.write(f'The length of the category_id you entered '
-                             f'{category_id_input} was not '
+            sys.stdout.write(f'ERROR: The length of the category_id you '
+                             f'entered \"{category_id_input}\" was not '
                              f'{category_id_required_length}'
                              f' digits. Please try again.\n')
         except AlreadyExistsError:
             sys.stdout.write(
-                f"The category id {category_id_input} already exists. "
-                f"Please try again.\n")
+                f"ERROR: The category id \"{category_id_input}\" already "
+                f"exists. Please try again.\n")
         else:
             category_id_int = int(category_id_input)
             return category_id_int
@@ -322,7 +320,7 @@ def add_category(cat_id_initialization, cat_weight_initialization):
     category_name = check_alpha_input(
         'Please enter a new category name: ',
         'ERROR: your category name ',
-        ' was not all letters')
+        ' was not all letters. Please try again.')
     category_weight = check_category_weight(cat_weight_initialization)
     category_weight = f'{category_weight:.0%}'  # convert category weights to
     # percentages
@@ -356,32 +354,44 @@ def build_category_name_weight_tuple_list(file_text):
 
 def check_grade_entered(a_cat, name_of_student):
     """
-    Prompts the user to enter a grade for that category, checks that that
-    the input is numeric, throwing
+    Prompts the user to enter a grade for that category, checks that
+    the input is numeric, outputting an error if it is not. If numeric, it is
+    converted to a a float, and errors are raised if the float is less than or
+    equal to 0 or more than 1. If the float is in the appropriate range, it is
+    returned.
     :param a_cat: a tuple with the name of the category and its weight
     :param name_of_student: a string of the student's first and last name
     :return: a float between 0 and 1 representing one of a student's grades in
     one category
     """
     while True:
+        category_grades_input = ''
         try:
-            category_grades_float_input = float(input(
-                f"Please enter a {a_cat[0]} grade for "
+            category_grades_input = input(
+                f"Please enter a grade in the {a_cat[0]} category for "
                 f"{name_of_student} as a decimal between"
-                f" 0 and 1: "))
-            if category_grades_float_input <= 0:
-                raise ValueTooSmallError
-            elif category_grades_float_input > 1:
-                raise ValueTooLargeError
+                f" 0 and 1: ")
+            if not category_grades_input.replace(".", "", 1).isdigit():
+                raise TypeError
         except TypeError:
-            sys.stdout.write(f"ERROR: The {a_cat[0]} grade must be numeric")
-        except ValueTooSmallError:
-            sys.stdout.write(
-                "ERROR: The value you entered must be greater than 0.")
-        except ValueTooLargeError:
-            sys.stdout.write("ERROR: The value you entered must be 1 or less.")
+            sys.stdout.write(f"ERROR: The {a_cat[0]} grade entered "
+                             f"\"{category_grades_input}\" was not numeric. "
+                             f"Please try again.\n")
         else:
-            return category_grades_float_input
+            try:
+                category_grades_float_input = float(category_grades_input)
+                if category_grades_float_input <= 0:
+                    raise ValueTooSmallError
+                elif category_grades_float_input > 1:
+                    raise ValueTooLargeError
+            except ValueTooSmallError:
+                sys.stdout.write(
+                    "ERROR: The value you entered must be greater than 0.")
+            except ValueTooLargeError:
+                sys.stdout.write("ERROR: The value you entered must be 1 or "
+                                 "less.")
+            else:
+                return category_grades_float_input
 
 
 def enter_another_grade(grade_list_float, a_category, name_of_student):
@@ -406,7 +416,7 @@ def enter_another_grade(grade_list_float, a_category, name_of_student):
                 f"The grades you have entered so far for {name_of_student} in "
                 f"the {a_category[0]} category are {grade_list_float}.\nWould "
                 f"you like to enter another grade in the {a_category[0]} "
-                f"category for {name_of_student}? Type 'y' for yes and 'n' for"
+                f"category for {name_of_student}? Type 'y' for yes or 'n' for"
                 f" no: ")
             if user_choice != 'y' and user_choice != 'n':
                 raise ValueError
@@ -511,8 +521,9 @@ def select_student(list_of_students):
                 return list_of_students[student_in_list]
         else:
             sys.stdout.write(
-                "ERROR: The id of the student you have entered is not in the"
-                " system. Please try again.\n")
+                f"ERROR: The id you have entered \"{student_choice_input}\" "
+                f"does not correspond with a student in the grade book. Please"
+                f" try again.\n")
 
 
 def add_to_student_grade_list_file(a_file_string):
@@ -544,12 +555,13 @@ def get_user_choice(choice_input):
     :return: choice_input: an integer representing the user's choice
     """
     while not choice_input.isdigit():
-        choice_input = input(f"\nPlease enter a number corresponding with the "
-                             f"list below (press 0 to quit):\n{'':^3}1. To "
-                             f"list all students.\n{'':^3}2. Add a student.\n"
-                             f"{'':^3}3. List all categories.\n{'':^3}4. Add "
-                             f"a category.\n{'':^3}5. Enter and calculate a "
-                             f"student's final grade.\n")
+        choice_input = input(f"\nPlease enter a number corresponding with an "
+                             f"item in the list below (press 0 to quit):"
+                             f"\n{'':^3}1. To list all students.\n{'':^3}2. "
+                             f"Add a student.\n{'':^3}3. List all categories."
+                             f"\n{'':^3}4. Add a category.\n{'':^3}5. Enter "
+                             f"and calculate a student's final grade.\n{'':^3}"
+                             f"6. List all students' grades.\n")
         if not choice_input.replace(".", "", 1).replace("-", "", 1).isdigit():
             sys.stdout.write(
                 f"ERROR: User input must be numeric. Please try again.\n")
@@ -579,9 +591,7 @@ if __name__ == '__main__':
                     break
                 else:
                     print(
-                        'Student ID',
-                        'Student First Name',
-                        'Student Last Name'
+                        f'Student ID, Student First Name, Student Last Name'
                     )
                     new_student_set = make_student_set(list_of_student_lists)
                     for a_student in new_student_set:
@@ -641,7 +651,7 @@ if __name__ == '__main__':
                 else:  # if checks satisfied, allows student retrieval and
                     # grade input
                     selected_student = select_student(a_list_of_student_lists)
-                    print(f"Your selected_student is {selected_student}")
+                    print(f"Your selected student is {selected_student}")
                     student_name = \
                         selected_student[1]
                     student_grades = build_student_grade_dict(student_name)
@@ -718,6 +728,22 @@ if __name__ == '__main__':
                           f'{cat_grade_print}\nTotal Grade: '
                           f'{total_avg_formatted}')
                     break
+
+        elif choice_input_int == 6:  # allows the user to view the grades for
+            # all students
+            while True:
+                lines_of_file = read_file_no_header('student_grades_list.txt')
+                if len(lines_of_file) == 0:
+                    print("There are currently no student grades in the grade "
+                          "book. Please select option \"5\" to add grades for "
+                          "a student.")
+                    break
+                else:
+                    print(get_file_header('student_grades_list.txt'))
+                    for line in lines_of_file:
+                        sys.stdout.write(f'{line}')
+                    break
+            print('\n')
 
         elif choice_input_int == 0:  # when 0 is input, program terminates
             break

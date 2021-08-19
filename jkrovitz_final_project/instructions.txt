@@ -1,9 +1,0 @@
-Python Grade Book Instructions
-
-Open the jkrovitz_final_project folder in a Python text editor or IDE of your choice.
-
-To interact with the grade book itself, run the file grade_book.py. From there, it is a user input based program, and the directions on screen will guide the user.
-
-To run the tests, please run the Student.py file. The message "All tests passed!" Will be printed.
-
-The custom_error.py file contains custom error message classes that are used in grade_book.py. Running it will not yield any output.

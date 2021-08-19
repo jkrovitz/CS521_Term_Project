@@ -1,3 +1,2 @@
 Student ID, Student Name
 10000, Rudi Betts
-10001, Arianna Hendricks

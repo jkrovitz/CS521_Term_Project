@@ -1,7 +1,0 @@
-Student ID, Student First Name, Student Last Name
-54321, John, Smith
-54321, Joe, Shmoe
-12345, Jeremy, Krovitz
-20001, William, Lewandowski
-30001, Karen, Davis
-60001, Beatrice, Ogeh
